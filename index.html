@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Биология білгірлері · 10-сынып</title>
+<meta name="theme-color" content="#0f1b3d">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{
+  --bg1:#0e1a3f;--bg2:#1c2c63;--card:rgba(255,255,255,.09);--card2:rgba(255,255,255,.14);
+  --ink:#f4f7ff;--mut:#b7c3e6;
+  --g:#34d399;--t:#38bdf8;--o:#fbbf24;--p:#a78bfa;--r:#fb7185;
+  --t1:#34d399;--t2:#38bdf8;--t3:#fbbf24;
+  --ok:#22c55e;--bad:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Nunito","Inter","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);
+  background:radial-gradient(1200px 700px at 85% -10%,#3b2d8f55,transparent 60%),radial-gradient(900px 600px at -10% 110%,#0e9f6e44,transparent 60%),linear-gradient(160deg,var(--bg1),var(--bg2));
+  background-attachment:fixed;font-size:clamp(18px,1.45vw,26px);line-height:1.45;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input,select{font:inherit}
+/* top nav */
+.nav{position:sticky;top:0;z-index:20;display:flex;gap:.5rem;align-items:center;padding:.6rem 1rem;background:rgba(10,18,48,.85);backdrop-filter:blur(10px);border-bottom:1px solid #ffffff22;flex-wrap:wrap}
+.brand{font-weight:900;font-size:1.05em;letter-spacing:.02em;margin-right:auto;display:flex;align-items:center;gap:.5rem}
+.brand b{background:linear-gradient(90deg,var(--g),var(--o));-webkit-background-clip:text;background-clip:text;color:transparent}
+.navbtn{padding:.45rem .95rem;border-radius:999px;background:var(--card);font-weight:800;border:2px solid transparent;transition:.15s;white-space:nowrap}
+.navbtn:hover{background:var(--card2);transform:translateY(-1px)}
+.navbtn.on{border-color:currentColor;background:#ffffff1c}
+.navbtn[data-c="1"]{color:var(--g)}.navbtn[data-c="2"]{color:var(--t)}.navbtn[data-c="3"]{color:var(--o)}.navbtn[data-c="4"]{color:var(--p)}.navbtn[data-c="5"]{color:var(--r)}.navbtn[data-c="0"],.navbtn[data-c="f"]{color:#fff}
+main{max-width:1500px;margin:0 auto;padding:1.4rem 1.4rem 11rem}
+h1{font-size:clamp(2.4rem,6vw,5.2rem);line-height:1.02;font-weight:900}
+h2{font-size:1.5em;font-weight:900}
+.hero{text-align:center;padding:2.2rem 1rem 1rem}
+.hero .tag{display:inline-block;background:#ffffff1a;border:1px solid #ffffff33;padding:.35rem 1.1rem;border-radius:999px;font-weight:800;color:var(--mut);margin-bottom:1rem}
+.hero h1 span{background:linear-gradient(90deg,#34d399,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{font-size:1.25em;color:var(--mut);margin-top:.8rem}
+.dna{font-size:2.2rem;letter-spacing:.3em;margin-top:.4rem;opacity:.8}
+.teamsetup{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin:2rem auto;max-width:1200px}
+.teamin{background:var(--card);border-radius:22px;padding:1.1rem 1.2rem;border-top:8px solid var(--c)}
+.teamin label{display:block;font-weight:800;color:var(--c);margin-bottom:.4rem}
+.teamin input{width:100%;background:#0a1230aa;color:#fff;border:2px solid #ffffff33;border-radius:14px;padding:.7rem .9rem;font-weight:900;font-size:1.25em;outline:none}
+.teamin input:focus{border-color:var(--c)}
+.teamin .ex{font-size:.75em;color:var(--mut);margin-top:.4rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:16px;font-weight:900;background:linear-gradient(135deg,#10b981,#06b6d4);color:#04210f;box-shadow:0 8px 24px #0004;transition:.15s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn.big{font-size:1.5em;padding:1rem 2.4rem}
+.btn.ghost{background:var(--card2);color:var(--ink);box-shadow:none}
+.btn.warn{background:linear-gradient(135deg,#fbbf24,#fb923c)}
+.btn.bad{background:linear-gradient(135deg,#fb7185,#ef4444);color:#fff}
+.btn.sm{font-size:.8em;padding:.45rem .9rem;border-radius:12px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.center{text-align:center}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem;max-width:1300px;margin:1.6rem auto}
+.flowc{background:var(--card);border-radius:20px;padding:1rem;text-align:center;border-bottom:6px solid var(--c);cursor:pointer;transition:.15s}
+.flowc:hover{transform:translateY(-4px);background:var(--card2)}
+.flowc .n{font-size:2.4em;font-weight:900;color:var(--c);line-height:1}
+.flowc .t{font-weight:900;margin-top:.2rem}
+.flowc .s{font-size:.72em;color:var(--mut)}
+/* stage header */
+.banner{display:flex;align-items:center;gap:1.2rem;background:linear-gradient(120deg,var(--c),#ffffff00 140%);border-radius:26px;padding:1rem 1.6rem;margin-bottom:1.2rem;color:#06210f;box-shadow:0 10px 30px #0004}
+.banner .num{font-size:4.2rem;font-weight:900;line-height:1;background:#ffffff55;border-radius:20px;padding:.1em .45em;color:#111}
+.banner h2{font-size:clamp(1.8rem,3.6vw,3.2rem);color:#0a1228}
+.banner .meta{font-weight:800;color:#0a1228cc}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.card{background:var(--card);border-radius:22px;padding:1.2rem 1.5rem;border:1px solid #ffffff1a}
+.card h3{font-size:1.1em;margin-bottom:.5rem;color:var(--c,var(--o));font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+.card ul{padding-left:1.2rem}.card li{margin:.35rem 0}
+details.host{background:linear-gradient(135deg,#0ea5e922,#6366f122);border-radius:22px;border:1px solid #38bdf855;padding:.9rem 1.5rem;margin:1.2rem 0}
+details.host summary{cursor:pointer;font-weight:900;color:var(--t);list-style:none;font-size:1.05em}
+details.host summary::before{content:"🎤  "}
+details.host p{margin:.6rem 0;font-size:1.02em}
+/* qgrid */
+.qgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin:1rem 0}
+.qcard{position:relative;aspect-ratio:1.5/1;border-radius:22px;background:linear-gradient(145deg,var(--c),#ffffff22 220%);color:#07172b;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.15s;box-shadow:0 8px 20px #0004;min-height:110px}
+.qcard:hover{transform:scale(1.05) rotate(-.6deg)}
+.qcard .qn{font-size:3.2em;line-height:1}
+.qcard .qt{font-size:.62em;font-weight:800;opacity:.85}
+.qcard .gr{position:absolute;top:.5rem;right:.7rem;font-size:.6em;background:#0a122833;border-radius:999px;padding:.1rem .6rem}
+.qcard.done{filter:grayscale(.85) brightness(.55)}
+.qcard.done::after{content:"✔";position:absolute;bottom:.3rem;right:.8rem;font-size:1.3em;color:#fff}
+.boxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:1rem 0}
+.bbox{background:linear-gradient(160deg,#1a1a1a,#000);border:3px solid var(--c);border-radius:24px;padding:1.4rem;text-align:center;transition:.15s;box-shadow:0 0 30px color-mix(in srgb,var(--c) 40%,transparent)}
+.bbox:hover{transform:translateY(-5px) scale(1.02)}
+.bbox .q{font-size:4.5rem;line-height:1;color:var(--c);font-weight:900}
+.bbox .o{font-weight:800;color:var(--mut)}
+.bbox.done{opacity:.45}
+/* modal */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(5,10,30,.82);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:1.2rem}
+.modal.on{display:flex}
+.mbody{width:min(1250px,100%);max-height:94vh;overflow:auto;background:linear-gradient(160deg,#16255a,#0e1a3f);border:3px solid var(--c,#fff);border-radius:30px;padding:1.6rem 2rem;position:relative;animation:pop .25s}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:none;opacity:1}}
+.mclose{position:absolute;top:.8rem;right:1rem;font-size:1.8em;background:#ffffff22;border-radius:50%;width:2.2em;height:2.2em}
+.mhead{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:.8rem}
+.chip{display:inline-block;border-radius:999px;padding:.25rem 1rem;font-weight:900;background:var(--c,#fff);color:#07172b}
+.chip.g{background:#ffffff22;color:#fff}
+.qtext{font-size:clamp(1.7rem,3vw,3rem);font-weight:800;line-height:1.25;margin:.8rem 0 1.2rem}
+.answer{background:linear-gradient(135deg,#16a34a,#059669);border-radius:20px;padding:1rem 1.4rem;font-size:clamp(1.4rem,2.4vw,2.4rem);font-weight:800;margin:.6rem 0;animation:pop .25s}
+.hidden{display:none!important}
+.actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem;align-items:center}
+.timer{display:inline-flex;align-items:center;gap:.8rem;background:#0a1230aa;border:2px solid #ffffff33;border-radius:20px;padding:.4rem .9rem}
+.timer .tm{font-size:2.6em;font-weight:900;font-variant-numeric:tabular-nums;min-width:2.9ch;text-align:center}
+.timer.low .tm{color:var(--r);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.35}}
+.timer .bt{background:#ffffff22;border-radius:12px;padding:.35rem .8rem;font-weight:800}
+.timer .bt:hover{background:#ffffff44}
+.clues{display:grid;gap:.8rem;margin:1rem 0}
+.clue{border-radius:18px;padding:.9rem 1.3rem;background:#ffffff14;border:2px dashed #ffffff44;font-size:clamp(1.3rem,2.2vw,2.2rem);font-weight:700;min-height:3.2em;display:flex;align-items:center;gap:1rem}
+.clue.on{background:#fbbf2426;border:2px solid var(--o);animation:pop .3s}
+.clue .pts{background:var(--o);color:#111;border-radius:14px;padding:.1rem .8rem;font-weight:900;flex:none}
+.clue .ph{opacity:.55}
+.mystery{font-size:7rem;text-align:center;filter:drop-shadow(0 0 20px var(--o))}
+.tasks{display:grid;gap:1rem}
+.task{background:var(--card);border-radius:22px;border-left:10px solid var(--p);padding:1rem 1.4rem;display:grid;grid-template-columns:auto 1fr;gap:.2rem 1.2rem}
+.task .no{font-size:2.8em;font-weight:900;color:var(--p);grid-row:span 3;line-height:1}
+.task .tp{font-weight:900;color:var(--p)}
+.task .sol{background:#4c1d95aa;border-radius:14px;padding:.6rem 1rem;margin-top:.5rem;font-size:.95em}
+.task .sol b{color:#fde68a}
+.tf{display:grid;gap:.7rem}
+.tfi{display:flex;align-items:center;gap:1rem;background:var(--card);border-radius:18px;padding:.7rem 1.2rem}
+.tfi .st{flex:1}
+.tfi .res{font-weight:900;padding:.2rem 1rem;border-radius:12px;display:none}
+.tfi.show .res{display:block}
+.tfi .res.y{background:#16a34a}.tfi .res.n{background:#dc2626}
+.stakerow{display:grid;grid-template-columns:1.3fr 2fr 1.6fr;gap:1rem;align-items:center;background:var(--card);border-radius:20px;padding:.8rem 1.2rem;border-left:10px solid var(--c);margin:.7rem 0}
+.stakerow .nm{font-weight:900;font-size:1.2em;color:var(--c)}
+.stakerow .sc{font-size:.7em;color:var(--mut);display:block}
+.stk{display:flex;gap:.5rem}
+.stk button{width:3.2em;height:3.2em;border-radius:50%;background:#ffffff1f;font-weight:900;font-size:1.3em;border:3px solid transparent}
+.stk button.sel{background:var(--c);color:#0a1228;border-color:#fff}
+.stk button:disabled{opacity:.25}
+.lock{font-size:2.4rem;font-weight:900;text-align:center}
+.res5{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}
+.rtag{font-weight:900;padding:.2rem .8rem;border-radius:12px}
+.rtag.ok{background:#16a34a}.rtag.no{background:#dc2626}
+.jury{display:grid;grid-template-columns:1.2fr repeat(3,.7fr) 1fr auto;gap:.6rem;align-items:center;background:var(--card);padding:.7rem 1rem;border-radius:18px;margin:.5rem 0;border-left:10px solid var(--c)}
+.jury input{width:100%;background:#0a1230aa;border:2px solid #ffffff33;color:#fff;border-radius:12px;padding:.4rem .5rem;text-align:center;font-weight:900;font-size:1.1em}
+.jury .avg{font-weight:900;font-size:1.5em;text-align:center}
+/* scoreboard */
+.sb{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(3,1fr) auto;gap:.8rem;padding:.7rem 1rem;background:linear-gradient(0deg,#070e2aee,#0b1535ee);border-top:1px solid #ffffff33;backdrop-filter:blur(10px)}
+.sbt{display:flex;align-items:center;gap:.7rem;background:var(--card);border-radius:20px;padding:.4rem .9rem;border-bottom:6px solid var(--c)}
+.sbt .nm{flex:1;min-width:0}
+.sbt .nm input{width:100%;background:transparent;border:0;color:var(--c);font-weight:900;font-size:1.05em;outline:none;border-bottom:2px dashed #ffffff22}
+.sbt .nm input:focus{border-bottom-color:var(--c)}
+.sbt .pts{font-size:clamp(2.2rem,4vw,4rem);font-weight:900;line-height:1;min-width:2.1ch;text-align:center;font-variant-numeric:tabular-nums}
+.sbt .pts.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.35);color:var(--c)}}
+.pm{display:grid;grid-template-columns:1fr 1fr;gap:.25rem}
+.pm button{background:#ffffff22;border-radius:10px;font-weight:900;min-width:2.5em;padding:.15rem .4rem;font-size:.85em}
+.pm button:hover{background:var(--c);color:#0a1228}
+.sbx{display:flex;flex-direction:column;gap:.3rem;justify-content:center}
+.sbx button{background:#ffffff1f;border-radius:12px;padding:.25rem .8rem;font-weight:800;font-size:.75em}
+.sbx button:hover{background:#ffffff44}
+.toast{position:fixed;left:50%;bottom:9.5rem;transform:translateX(-50%);background:#fff;color:#111;font-weight:900;padding:.6rem 1.4rem;border-radius:999px;z-index:60;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+/* final */
+.podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:1rem;align-items:end;max-width:1100px;margin:1.5rem auto}
+.pod{border-radius:26px 26px 0 0;text-align:center;padding:1rem .6rem;background:linear-gradient(180deg,var(--c),#ffffff11 180%);color:#0a1228;font-weight:900}
+.pod .md{font-size:4rem;line-height:1}
+.pod .nm{font-size:1.5em}
+.pod .sc{font-size:3.4em;line-height:1}
+.pod.p1{min-height:21rem}.pod.p2{min-height:17rem}.pod.p3{min-height:14rem}
+.nom{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
+.nomi{display:flex;gap:.6rem;align-items:center;background:var(--card);border-radius:16px;padding:.5rem 1rem}
+.nomi b{flex:none;color:var(--o)}
+.nomi input{flex:1;min-width:0;background:#0a1230aa;border:2px solid #ffffff22;border-radius:10px;padding:.3rem .6rem;color:#fff;font-weight:800}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
+.proverb{font-size:1.5em;font-style:italic;text-align:center;color:var(--o);margin:1.4rem 0;font-weight:800}
+.note{color:var(--mut);font-size:.8em}
+.tbl{width:100%;border-collapse:collapse}
+.tbl td,.tbl th{padding:.5rem .7rem;border-bottom:1px solid #ffffff22;text-align:left;vertical-align:top}
+.tbl th{color:var(--mut);font-size:.8em;text-transform:uppercase}
+@media (max-width:1100px){
+  .teamsetup,.flow,.grid2,.boxgrid,.nom{grid-template-columns:1fr}
+  .qgrid{grid-template-columns:repeat(3,1fr)}
+  .sb{grid-template-columns:1fr;gap:.3rem;padding:.4rem}.sbx{flex-direction:row}
+  .stakerow,.jury{grid-template-columns:1fr}
+  main{padding-bottom:20rem}
+}
+</style>
+</head>
+<body>
+<div class="nav" id="nav"></div>
+<main id="main"></main>
+<div class="sb" id="sb"></div>
+<div class="modal" id="modal"><div class="mbody" id="mbody"></div></div>
+<div class="toast" id="toast"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+"use strict";
+/* ============ DATA ============ */
+const TC=["var(--t1)","var(--t2)","var(--t3)"];
+const STAGES=[
+ {n:1,key:"s1",c:"var(--g)",hex:"#34d399",title:"Биолог визиткасы",short:"Сәлемдесу",meta:"8 минут · ең көбі 10 ұпай"},
+ {n:2,key:"s2",c:"var(--t)",hex:"#38bdf8",title:"Жылдам жауап",short:"15 блиц-сұрақ",meta:"10 минут · әр команда 5 сұрақ · ең көбі 5 ұпай + бонус"},
+ {n:3,key:"s3",c:"var(--o)",hex:"#fbbf24",title:"Қара жәшік",short:"3 меңзеу",meta:"10 минут · ең көбі 6 ұпай"},
+ {n:4,key:"s4",c:"var(--p)",hex:"#a78bfa",title:"Биолог-есепші",short:"7 есеп",meta:"12 минут · ең көбі 7 ұпай + 1 жылдамдық бонусы"},
+ {n:5,key:"s5",c:"var(--r)",hex:"#fb7185",title:"Капитандар сайысы «Тәуекел!»",short:"Ставкамен ойын",meta:"8 минут · ұпай ставкаға байланысты"}
+];
+const INTRO_HOST=[
+ "Армысыздар, құрметті ұстаздар, қонақтар және қымбатты оқушылар! Бүгін біз «Биология білгірлері» сыныптан тыс сайысына жиналып отырмыз!",
+ "Тіршілік сырын ашу — ең қызықты іс. Ол ең ұсақ жасушадан басталып, тұтас биосфераға дейін жетеді. Бүгін 10-сынып оқушылары үш команда болып, 10-сыныптың 1-тоқсанында және 9-сыныпта алған білімін, тапқырлығын және ұйымшылдығын сынап көреді.",
+ "Сайыс бес кезеңнен тұрады: сәлемдесу, жылдам жауап, қара жәшік, есеп шығару және капитандар сайысы. Әр кезеңде жеңген команда ұпай жинайды, ал соңында ең көп ұпай алған команда «Биология білгірлері» атағына ие болады!",
+ "Әділ төрелікті қазылар алқасы жүргізеді. Таныстырамыз: қазылар алқасының төрағасы — ____________, мүшелері — ____________, ____________.",
+ "Ережеміз қарапайым: бір-бірімізді тыңдаймыз, адал ойнаймыз, жеңсек те, жеңілсек те — дос боламыз! Халқымыз «Білекті бірді жығады, білімді мыңды жығады» дейді. Ендеше, білім сайысына бастайық!"
+];
+const S1={
+ rules:["Әр команда **1,5 минут** ішінде өзін таныстырады: команданың атауы, ұраны (девизі), эмблемасы, құрамы.","Таныстыру кемінде **3 биологиялық термин** қамтуы керек (мысалы, команда атауының биологиялық мағынасы, ұранда «ДНҚ», «жасуша», «фермент» сөздері). Формасы еркін: тақпақ, шағын көрініс, ән, ребус.","Дайындық алдын ала жасалады (сайыс күнінен 3–5 күн бұрын).","Қазылардың әрқайсысы 0–10 ұпай қояды, **орташа мәні** (0,5-ке дейін дөңгелектеп) команданың ұпайы болады."],
+ crit:[["Биологиялық мазмұн","Кемінде 3 термин, дұрыс және орынды","0–3"],["Шығармашылық","Идея, эмблема, көрнекілік, бейнелілік","0–4"],["Ұйымшылдық және сөйлеу мәдениеті","Барлық мүше қатысты, тілі таза, уақыт сақталды","0–3"]],
+ host:["Біз кезек сәлемдесуге беріп отырмыз! Әр команда өзін таныстырады. Қазылар алқасы шығармашылыққа, биологиялық мазмұнға және ұйымшылдыққа назар аударады.","Бірінші болып сөз «___________» командасына беріледі. Сахнаға шақырамыз!","(Әр команда шыққаннан кейін): Рақмет! Қазылар алқасына ұпай қоюға уақыт береміз.","(Кезең соңында): Таныстыру аяқталды, тірі табиғаттың қызғылықты әлеміне ендік! Келесі кезең — «Жылдам жауап». Бұл жерде асыққан мақұл, бірақ адаспаған жөн!"]
+};
+const S2={
+ rules:["Сұрақтар **кезекпен** қойылады (1-сұрақ — 1-командаға, 2-сұрақ — 2-командаға, 3-сұрақ — 3-командаға және т.б.). Барлығы 15 сұрақ, әр командаға 5 сұрақ.","Ойлануға — **15 секунд**. Жауап қысқа, нақты болуы керек. Кеңесуге болады, бірақ жауапты бір адам айтады.","Дұрыс жауап — **1 ұпай**. Дұрыс жауап болмаса, сұрақ **келесі командаға** беріледі: ол **10 секундта** жауап берсе — **+1 бонус ұпай**.","Жауап ешкімде болмаса, жүргізуші дұрыс жауапты оқиды.","[10] — 10-сыныптың 1-тоқсаны, [9] — 9-сыныптан қайталау тақырыбы."],
+ host:["Енді жылдамдық пен білімнің сыны басталады! Сұрақ — кезекпен, ойлануға — 15 секунд. Қателессеңіздер, жауап қарсыластарға өтеді, сондықтан сергек болыңдар!","(Кезең соңында): Жылдам жауап кезеңі аяқталды! Ұпайларды қазылар алқасы жариялайды. Ал енді құпияға толы кезеңге көшеміз. Алдымызда — алты қара жәшік!"],
+ q:[
+ [10,"Су молекулалары арасындағы қандай байланыс судың жоғары жылу сыйымдылығы мен беттік керілуін қамтамасыз етеді?","Сутектік байланыс."],
+ [9,"Тірі ағзаларды екі сөзден тұратын (бинарлы) атаумен атауды ғылымға кім енгізді?","Карл Линней."],
+ [10,"Рибонуклеин қышқылының қай түрі аминқышқылдарын рибосомаға алып келеді?","Транспорттық РНҚ (т-РНҚ)."],
+ [9,"Өттің ас қорытудағы негізгі қызметі қандай?","Майларды эмульгациялайды (ұсақ тамшыларға бөледі), сөйтіп липаза ферментінің әсерін күшейтеді."],
+ [10,"Жасуша мембранасының негізгі құрылымдық компоненті болып табылатын липидтерді ата.","Фосфолипидтер (қос қабат түзеді)."],
+ [9,"Мейоз нәтижесінде неше жасуша түзіледі және олардағы хромосомалар жиынтығы қандай?","4 жасуша; хромосомалар жиынтығы гаплоидты (n)."],
+ [10,"Қарапайым көмірсулардың (моносахаридтердің) кемінде екі мысалын ата.","Глюкоза, фруктоза, галактоза, рибоза, дезоксирибоза (кез келген екеуі)."],
+ [9,"Экожүйеде қоректік тізбектің бір деңгейінен келесі деңгейіне орта есеппен энергияның қанша бөлігі өтеді?","Шамамен 10 % («10 % ережесі»)."],
+ [10,"Лизосомалардың жасушадағы негізгі қызметі қандай?","Ыдыратушы (гидролитикалық) ферменттерінің көмегімен заттарды ыдыратады — жасушаішілік қорытуды жүргізеді."],
+ [9,"Адамның қан топтарының қайсысында А және В антигендері бір мезгілде болады?","IV (АВ) қан тобында."],
+ [10,"Нәруыздың бірінші реттік құрылымы дегеніміз не?","Амин қышқылдарының пептидтік байланыстар арқылы жалғасқан тізбектегі реті (тізбегі)."],
+ [9,"Өсімдіктердің жапырағынан су буының бөлінуі қалай аталады?","Транспирация."],
+ [10,"ДНҚ молекуласында тимин қай азоттық негізбен комплементарлы?","Аденинмен (А — Т)."],
+ [10,"Майлар мен көмірсулардың қайсысы 1 г зат ыдырағанда көбірек энергия береді?","Майлар (шамамен 38,9 кДж/г, ал көмірсулар — шамамен 17,6 кДж/г)."],
+ [10,"Ферменттің субстратпен әрекеттесетін учаскесі қалай аталады?","Ферменттің белсенді орталығы."]
+ ],
+ res:[
+ [9,"Парниктік эффектіні тудыратын газдардың кемінде екеуін ата.","Көмірқышқыл газы (CO₂), метан (CH₄), азот(I) оксиді (N₂O), су буы."],
+ [10,"ДНҚ мен РНҚ құрамындағы бес көміртекті қанттардың атаулары қандай?","ДНҚ-да — дезоксирибоза, РНҚ-да — рибоза."],
+ [9,"Бүйректің құрылымдық-қызметтік бірлігі қалай аталады?","Нефрон."]
+ ]
+};
+const S3={
+ rules:["Барлығы **6 жәшік**: әр команда 2 жәшікке жауап береді (1, 4-жәшік — 1-команда; 2, 5-жәшік — 2-команда; 3, 6-жәшік — 3-команда).","Әр жәшіктің **3 меңзеуі** біртіндеп ашылады (жалпы → нақты). Әр меңзеуден кейін команда жауап беруге **10 секунд** алады. Бір меңзеуге бір ғана жауап беруге болады.","Ұпай: **1-меңзеуден кейін — 3 ұпай, 2-меңзеуден кейін — 2 ұпай, 3-меңзеуден кейін — 1 ұпай**.","Үш меңзеуден кейін де дұрыс жауап болмаса, қалған командалар жауап береді: дұрыс айтқан команда — **+1 ұпай**.","Жәшікке сәйкес зат немесе сурет салынады. Жауап дұрыс болғанда жәшік ашылып, зат көрсетіледі."],
+ host:["Қара жәшіктер сахнаға шығады! Әр меңзеу — құпия есігінің бір кілті. Неғұрлым ертерек тапсаңыздар, соғұрлым көп ұпай аласыздар.","(Әр жәшіктен кейін): Дұрыс! Жәшікті ашамыз... Иә, бұл — ___________! / Өкінішке қарай, жауап дұрыс емес. Келесі меңзеуді тыңдаңыздар.","(Кезең соңында): Қара жәшіктердің құпиясы ашылды! Алға, Биолог-есепшілер кезеңіне!"],
+ b:[
+ ["Сахароза (қант)","🍬",["Жәшіктегі зат — көмірсу.","Ол дисахарид: молекуласы екі моносахарид қалдығынан тұрады.","Глюкоза мен фруктоза қалдықтарынан түзіледі, қант қызылшасы мен қант қамысынан алынады."],"Қант кесегі"],
+ ["Митохондрия","⚡",["Бұл — эукариот жасушасының органоиді.","Қос мембранамен қоршалған, ішкі мембранасы қатпарлар — кристалар түзеді.","Жасушаның «энергия станциясы»: мұнда АТФ көп мөлшерде синтезделеді."],"Митохондрия суреті/макеті"],
+ ["Рибосома","🧶",["Бұл — өте ұсақ органоид, прокариоттарда да, эукариоттарда да болады.","Мембранасы жоқ, үлкен және кіші екі суббірліктен тұрады.","Мұнда мРНҚ бойынша нәруыз синтезі (трансляция) жүреді."],"Екі бөліктен тұратын макет"],
+ ["Амилаза (сілекей ферменті)","🍞",["Бұл — нәруыздық табиғаты бар зат.","Ол биологиялық катализатор, оның белсенді орталығы бар.","Ол сілекейде болады және крахмалды ыдыратады."],"Бір тілім нан немесе крахмал"],
+ ["Нефрон","🫘",["Бұл — адамның бөліп шығару жүйесіне жатады.","Бүйректің құрылымдық-қызметтік бірлігі: Шумлянский–Боумен капсуласы мен өзекшелерден тұрады.","Онда қан плазмасының ультрафильтрациясы және таңдамалы реабсорбция жүреді."],"Нефрон суреті"],
+ ["Көмірқышқыл газы (CO₂)","💨",["Бұл — түссіз, иіссіз газ.","Өсімдіктер оны фотосинтезде сіңіреді, ал жасушалық тыныс алу кезінде бөлінеді.","Атмосферадағы мөлшерінің артуы парниктік эффектіні күшейтеді."],"Газдалған су бөтелкесі"]
+ ]
+};
+const S4={
+ rules:["Барлық командаға бірдей **7 есептен** тұратын жауап парағы беріледі. Шешу уақыты — **10 минут**; қосымша 2 минут қазылардың тексеруіне беріледі.","Команда мүшелері есептерді бөлісіп, не бірігіп шеше алады. Шешу жолы мен жауабы жауап парағына жазылады. Калькуляторға рұқсат.","Әр есеп — **1 ұпай** (шешу жолы да, жауабы да дұрыс). Шешу жолы дұрыс, бірақ есептеуде қате болса — **0,5 ұпай**.","Барлық есепті **дұрыс** шешіп, бірінші тапсырған командаға **+1 жылдамдық бонусы** беріледі.","Уақыт біткенде «Қалам қойылсын!» айтылады, жауап парақтары қазыларға тапсырылады."],
+ host:["Биология тек жаттау емес, ол — дәлдік пен есеп. Генетик те, экологтар да, биофизиктер де есеп шығарады! Экранда 7 есептің шарты. Қаламдар қолда болсын. Уақыт — 10 минут. Бастаймыз!","(Аяғында): Қаламдар қойылсын! Жауап парақтарын қазыларға тапсырамыз. Қазылар алқасы тексеріп жатқанда, көрермендермен ойын өткізіп алайық!"],
+ t:[
+ ["[10] ДНҚ","ДНҚ молекуласында аденин нуклеотидтері 30 % құрайды. Қалған нуклеотидтердің (тимин, гуанин, цитозин) пайыздық мөлшерін тап.","А = Т (Чаргафф ережесі), сондықтан Т = 30 %. А + Т = 60 %, қалған 100 − 60 = 40 % — Г мен Ц. Г = Ц, сондықтан әрқайсысы 40 : 2 = 20 %.","Т — 30 %, Г — 20 %, Ц — 20 %"],
+ ["[10] ДНҚ → мРНҚ","ДНҚ-ның матрицалық тізбегі: АТГ–ЦГТ–ТАЦ–ГГА. 1) Оған комплементарлы ДНҚ тізбегін жаз. 2) Осы матрицада синтезделетін мРНҚ-ның нуклеотидтер тізбегін жаз.","Комплементарлық: А–Т, Г–Ц. ДНҚ-да матрицалық тізбектің қарсысына: А→Т, Т→А, Г→Ц, Ц→Г. РНҚ-да тиминнің орнына урацил (У): А→У, Т→А, Г→Ц, Ц→Г.","1) ТАЦ–ГЦА–АТГ–ЦЦТ · 2) мРНҚ: УАЦ–ГЦА–АУГ–ЦЦУ"],
+ ["[9] Мендель","Бұршақта сары түс (А) жасыл түске (а) қарағанда басым. Гетерозиготалы сары бұршақты жасыл бұршақпен шағылыстырды. Ұрпақтың генотипін, фенотипін және олардың арақатынасын анықта.","Р: Аа × аа. Гаметалар: А, а және а. Ұрпақ: Аа, аа.","Аа (сары) : аа (жасыл) = 1 : 1, яғни 50 % және 50 %"],
+ ["[9] Қан топтары","Анасының қан тобы — II (генотипі I<sup>A</sup>i), әкесінікі — III (генотипі I<sup>B</sup>i). Балаларында қандай қан топтары болуы мүмкін? Әр топтың пайда болу ықтималдығын көрсет.","Гаметалар: ана — I<sup>A</sup>, i; әке — I<sup>B</sup>, i. Ұрпақ: I<sup>A</sup>I<sup>B</sup>, I<sup>A</sup>i, I<sup>B</sup>i, ii.","IV (AB), II (A), III (B), I (0) — төрт топтың барлығы, әрқайсысы 25 %"],
+ ["[9] Ұлғаю","Электрондық микрофотографияда митохондрияның ұзындығы 30 мм, ал оның нақты ұзындығы 3 мкм. Суреттің ұлғаюы (неше есе) қандай? (1 мм = 1000 мкм)","30 мм = 30 000 мкм. Ұлғаю = суреттегі өлшем : нақты өлшем = 30 000 : 3.","10 000 есе (×10 000)"],
+ ["[9] Энергия ағыны","Шөптің биомассасында 20 000 кДж энергия жинақталған. Қоректік тізбек: шөп → шегіртке → бақа → жылан. «10 % ережесі» бойынша жыланға қанша энергия жетеді?","20 000 → шегіртке: 2 000 → бақа: 200 → жылан: 20 кДж (үш өту, әрқайсысында 10 %).","20 кДж"],
+ ["[10] Нәруыз және ген","Нәруыз тізбегі 100 амин қышқылынан тұрады. 1) Оның тізбегінде неше пептидтік байланыс бар? 2) Осы нәруызды кодтайтын мРНҚ-ның аймағында неше нуклеотид болады (тоқтау кодонын есепке алмағанда)?","Сызықты тізбектегі пептидтік байланыс саны = амин қышқылы саны − 1 = 99. Бір амин қышқылын бір кодон (3 нуклеотид) кодтайды: 100 × 3 = 300.","1) 99; 2) 300 нуклеотид"]
+ ],
+ tf:[
+ ["Су — жасушаның негізгі құрамдас бөліктерінің бірі.",true,"Жасуша массасының басым бөлігін су құрайды."],
+ ["ДНҚ-ның құрамында урацил бар.",false,"ДНҚ-да тимин, урацил РНҚ-да болады."],
+ ["Митохондрия өсімдік жасушасында болмайды.",false,"Өсімдік жасушасында да бар."],
+ ["Көптеген ферменттер нәруыздық табиғатты.",true,"Иә, көпшілігі нәруыз."],
+ ["Жануар жасушасында хлоропласт болады.",false,"Хлоропластар өсімдіктерге тән."],
+ ["Гликоген — жануарлар мен саңырауқұлақтардың қор көмірсуы.",true,"Иә, гликоген — қор полисахарид."]
+ ]
+};
+const S5={
+ rules:["Сайысқа тек **капитандар** қатысады, команда мүшелері көмектеспейді (тек қолдау көрсетеді).","Барлығы **4 раунд**. Әр раундта барлық капитанға **бір сұрақ** қойылады. Сұрақты оқымас бұрын әр капитан **құпия ставка** жасайды: **1, 2 немесе 3 ұпай** (ставка команданың ағымдағы ұпайынан аспауы керек).","Жауап — **30 секунд** ішінде карточкаға жазылады. Дұрыс жауап — ставка команда есебіне **қосылады**, қате жауап — ставка **алынады** (ұпай нөлден төмен түспейді).","Қазылар жауаптарды бір мезгілде тексеріп, дұрыс жауапты жариялайды.","Тең ұпай болса — «Тай-брейк» қолданылады."],
+ host:["Ең қызықты, ең шешуші кезеңге жеттік! Бұл кезеңде жеңіс те, жеңіліс те сіздердің тәуекелге баруларыңызға байланысты. Капитандар, сайысқа шығыңыздар! Ставка жасаңыздар: 1, 2 немесе 3 ұпай. Бірінші раунд!","(Аяғында): Капитандар сайысы аяқталды! Қазылар алқасы қорытынды ұпайларды есептеуге кіріседі. Бір минут үзіліс."],
+ q:[
+ [10,"Нәруыздың екіншілік құрылымы қандай байланыстармен тұрақтандырылады? Мысал келтір.","Сутектік байланыстармен; мысалы, α-спираль, β-қатпарлы қабат."],
+ [9,"Нейронда әрекет потенциалы пайда болғанда мембрана арқылы қай ион алдымен жасушаның ішіне кіреді?","Натрий иондары (Na⁺) — деполяризация кезеңі."],
+ [10,"Жасуша мембранасының құрылысын түсіндіретін қазіргі үлгі қалай аталады және оның негізі қандай?","Сұйық-мозайкалық үлгі (С. Сингер мен Г. Николсон, 1972): фосфолипидтердің қос қабаты, оған батырылған немесе орналасқан нәруыздармен."],
+ [10,"Ферменттің белсенділігі температура жоғарылаған сайын неліктен белгілі бір шектен кейін күрт төмендейді?","Жоғары температурада нәруыз денатурацияға ұшырайды: оның кеңістіктік құрылымы, соның ішінде белсенді орталығы бұзылады, субстратпен әрекеттесу мүмкін болмай қалады."]
+ ],
+ tie:[
+ ["ДНҚ-ның қос шиыршықты моделін 1953 жылы кімдер ұсынған?","Дж. Уотсон мен Ф. Крик."],
+ ["Нәруыз денатурациясы дегеніміз не?","Нәруыздың табиғи (нативті) кеңістіктік құрылымының (екіншілік, үшіншілік, төртіншілік) бұзылуы; бірінші реттік құрылым сақталады."]
+ ]
+};
+const NOMS=["Үздік визитка","Ең шапшаң жауап","Ең дәл есепші","Ең батыл капитан","Үздік командалық жұмыс","Көрермендер сыйлығы"];
+const DEFNAMES=["Нуклеотид","Митохондрия","Хлоропласт"];
+
+/* ============ STATE ============ */
+const KEY="bio10_sayys_v1";
+let st=load();
+function fresh(){return {names:DEFNAMES.slice(),scores:[0,0,0],view:"intro",done:{},log:[],s5:{},noms:{},started:false}}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.names&&x.scores)return Object.assign(fresh(),x)}catch(e){}return fresh()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+const $=s=>document.querySelector(s);
+const md=s=>s.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=n=>{const r=Math.round(n*2)/2;return Number.isInteger(r)?String(r):String(r).replace(".",",")};
+const tname=i=>st.names[i]||("Команда "+(i+1));
+
+function addScore(i,d,note){
+  const old=st.scores[i];
+  st.scores[i]=Math.max(0,Math.round((old+d)*2)/2);
+  const real=st.scores[i]-old;
+  st.log.push([i,real]); if(st.log.length>200)st.log.shift();
+  save();renderSB(i);
+  toast((real>=0?"+":"")+fmt(real)+" · "+tname(i)+(note?" · "+note:""));
+  return real;
+}
+function undo(){
+  const l=st.log.pop(); if(!l){toast("Қайтаратын әрекет жоқ");return}
+  st.scores[l[0]]=Math.max(0,st.scores[l[0]]-l[1]);save();renderSB(l[0]);toast("Қайтарылды: "+tname(l[0])+" "+fmt(-l[1]));
+}
+let tto;function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(tto);tto=setTimeout(()=>e.classList.remove("on"),1800)}
+
+/* ============ SCOREBOARD ============ */
+function renderSB(bump){
+  const el=$("#sb");
+  if(!el.dataset.ready){
+    el.innerHTML=[0,1,2].map(i=>`<div class="sbt" style="--c:${TC[i]}">
+      <div class="nm"><small class="note">${i+1}-команда</small><input data-n="${i}" value="${esc(st.names[i])}" aria-label="Команда атауы"></div>
+      <div class="pts" id="pts${i}">${fmt(st.scores[i])}</div>
+      <div class="pm"><button data-d="1" data-i="${i}">+1</button><button data-d="-1" data-i="${i}">−1</button><button data-d="0.5" data-i="${i}">+½</button><button data-d="-0.5" data-i="${i}">−½</button></div>
+    </div>`).join("")+`<div class="sbx"><button id="undo">↶ Қайтару</button><button id="resetall">⟲ Жаңа сайыс</button></div>`;
+    el.dataset.ready=1;
+    el.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+      if(b.dataset.d){addScore(+b.dataset.i,+b.dataset.d)}
+      else if(b.id==="undo")undo();
+      else if(b.id==="resetall"){if(confirm("Барлық ұпай мен ілгерілеуді нөлдеп, жаңа сайыс бастайсыз ба?")){const nm=st.names;st=fresh();st.names=nm;save();el.dataset.ready="";renderSB();go("intro")}}
+    });
+    el.addEventListener("input",e=>{const n=e.target.dataset.n;if(n!=null){st.names[+n]=e.target.value;save()}});
+    el.addEventListener("change",e=>{if(e.target.dataset.n!=null)refreshNames()});
+  }
+  [0,1,2].forEach(i=>{const p=$("#pts"+i);p.textContent=fmt(st.scores[i]);
+    if(bump===i){p.classList.remove("bump");void p.offsetWidth;p.classList.add("bump")}});
+  const s5=$("#s5live"); if(s5) updateStakeLimits();
+}
+function refreshNames(){ if(st.view!=="intro"&&!$("#modal").classList.contains("on")) go(st.view,true); }
+
+/* ============ TIMER ============ */
+let audioCtx;
+function beep(n=3){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+  for(let i=0;i<n;i++){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=880;o.connect(g);g.connect(audioCtx.destination);
+  const t=audioCtx.currentTime+i*.3;g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.25);o.start(t);o.stop(t+.26)}}catch(e){}}
+const timers=new Map();
+function timerHTML(id,secs,label){return `<div class="timer" id="${id}" data-secs="${secs}">${label?`<span>${label}</span>`:""}<span class="tm">${mmss(secs)}</span><button class="bt" data-t="go">▶</button><button class="bt" data-t="rs">↺</button></div>`}
+function mmss(s){s=Math.max(0,Math.ceil(s));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function bindTimers(root){
+  root.querySelectorAll(".timer").forEach(el=>{
+    const secs=+el.dataset.secs;const tm=el.querySelector(".tm");const go=el.querySelector('[data-t="go"]');
+    let left=secs,iv=null,end=0;
+    const draw=()=>{tm.textContent=mmss(left);el.classList.toggle("low",left<=5&&left>0&&iv)};
+    const stop=()=>{clearInterval(iv);iv=null;go.textContent="▶";el.classList.remove("low")};
+    go.onclick=()=>{ if(iv){stop();return} if(left<=0)left=secs;
+      end=Date.now()+left*1000;go.textContent="⏸";
+      iv=setInterval(()=>{left=(end-Date.now())/1000;if(left<=0){left=0;stop();draw();el.classList.add("low");beep();return}draw()},100)};
+    el.querySelector('[data-t="rs"]').onclick=()=>{stop();left=secs;draw()};
+    timers.set(el.id,{stop});
+  });
+}
+function stopAllTimers(){timers.forEach(t=>t.stop());timers.clear()}
+
+/* ============ NAV / ROUTING ============ */
+function renderNav(){
+  const items=[["intro","🏠 Басты","0"],...STAGES.map(s=>[s.key,s.n+" · "+s.title.split(" «")[0],String(s.n)]),["final","🏆 Жеңімпаздар","f"]];
+  $("#nav").innerHTML=`<div class="brand">🧬 <b>Биология білгірлері</b> · 10-сынып</div>`+items.map(([k,t,c])=>`<button class="navbtn ${st.view===k?"on":""}" data-c="${c}" data-go="${k}">${t}</button>`).join("");
+}
+$("#nav").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)go(b.dataset.go)});
+function go(v,keep){
+  closeModal();stopAllTimers();
+  st.view=v;save();renderNav();
+  const m=$("#main");
+  ({intro:vIntro,s1:vS1,s2:vS2,s3:vS3,s4:vS4,s5:vS5,final:vFinal}[v]||vIntro)(m);
+  if(!keep)window.scrollTo({top:0});
+  if(location.hash!=="#"+v)history.replaceState(null,"","#"+v);
+  bindTimers(m);
+}
+function banner(s){return `<div class="banner" style="--c:${s.hex}"><div class="num">${s.n}</div><div><div class="meta">${s.n}-КЕЗЕҢ</div><h2>${s.title}</h2><div class="meta">${s.meta}</div></div></div>`}
+function rulesCard(s,rules,extra){return `<div class="card" style="--c:${s.hex}"><h3>📋 Ережесі</h3><ul>${rules.map(r=>`<li>${md(r)}</li>`).join("")}</ul>${extra||""}</div>`}
+function hostCard(lines){return `<details class="host"><summary>Жүргізуші сөзі (басып ашыңыз)</summary>${lines.map(l=>`<p>— ${esc(l)}</p>`).join("")}</details>`}
+function nextBtn(i){const prev=i>1?STAGES[i-2]:null,next=i<5?STAGES[i]:null;
+  return `<div class="actions" style="justify-content:space-between;margin-top:1.6rem">${prev?`<button class="btn ghost" data-go="${prev.key}">← ${prev.n}-кезең</button>`:`<button class="btn ghost" data-go="intro">← Басты</button>`}${next?`<button class="btn" data-go="${next.key}">${next.n}-кезең: ${next.title} →</button>`:`<button class="btn warn big" data-go="final">🏆 Қорытынды</button>`}</div>`}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b&&!b.closest("#nav"))go(b.dataset.go)});
+
+/* ============ VIEWS ============ */
+function vIntro(m){
+  m.innerHTML=`<div class="hero"><div class="tag">Биологиядан сыныптан тыс сайыс · 10-сынып</div>
+   <h1>БИОЛОГИЯ<br><span>БІЛГІРЛЕРІ</span></h1><div class="dna">🧬 🔬 🌱 🧪</div>
+   <p class="sub">5 кезең · 3 команда · 10-сыныптың 1-тоқсаны + 9-сыныптан қайталау</p></div>
+   <div class="teamsetup">${[0,1,2].map(i=>`<div class="teamin" style="--c:${TC[i]}"><label>${i+1}-команда · атауын өзгертіңіз</label><input id="tn${i}" value="${esc(st.names[i])}" maxlength="28"><div class="ex">Мысалы: ${["Ген","Жасуша","Эволюция","Нуклеотид","Митохондрия","Хлоропласт"][i]}, ${["Рибосома","Фермент","Геном","Лизосома","Мембрана","Нейрон"][i]}</div></div>`).join("")}</div>
+   <div class="center"><button class="btn big" id="startBtn">▶ Сайысты бастау</button></div>
+   <div class="flow">${STAGES.map(s=>`<div class="flowc" style="--c:${s.hex}" data-go="${s.key}"><div class="n">${s.n}</div><div class="t">${s.title.split(" «")[0]}</div><div class="s">${s.short}</div></div>`).join("")}</div>
+   ${hostCard(INTRO_HOST)}
+   <div class="grid2"><div class="card" style="--c:var(--g)"><h3>👥 Қатысушылар</h3><ul><li>3 команда × 5–6 оқушы (10-сынып)</li><li>Қазылар алқасы: төраға + 2 мүше</li><li>Ұпайлар төмендегі тақтада: <b>+1 / −1 / ±½</b>, <b>↶ Қайтару</b></li></ul></div>
+   <div class="card" style="--c:var(--t)"><h3>⌨️ Қолданылуы</h3><ul><li>Кезеңдерді жоғарғы мәзірден таңдаңыз</li><li>Сұрақ карточкасын басыңыз — жауапты «Жауабы» батырмасымен ашыңыз</li><li>Деректер осы браузерде сақталады, интернетсіз де жұмыс істейді</li></ul></div></div>`;
+  ["0","1","2"].forEach(i=>{$("#tn"+i).addEventListener("input",e=>{st.names[+i]=e.target.value;save();const x=document.querySelector(`#sb [data-n="${i}"]`);if(x)x.value=e.target.value})});
+  $("#startBtn").onclick=()=>{st.started=true;go("s1")};
+}
+function vS1(m){const s=STAGES[0];
+  m.innerHTML=banner(s)+`<div class="grid2">${rulesCard(s,S1.rules)}
+   <div class="card" style="--c:${s.hex}"><h3>⭐ Бағалау өлшемдері (қазы, 0–10)</h3><table class="tbl">${S1.crit.map(c=>`<tr><td><b>${c[0]}</b><br><span class="note">${c[1]}</span></td><td><b>${c[2]}</b></td></tr>`).join("")}</table></div></div>
+   ${hostCard(S1.host)}
+   <div class="card" style="--c:${s.hex};margin-top:1.2rem"><h3>🎬 Таныстыру · 1,5 минут + қазылар ұпайы</h3>
+   ${[0,1,2].map(i=>`<div style="margin:.7rem 0;display:flex;gap:1rem;align-items:center;flex-wrap:wrap"><b style="color:${TC[i]};min-width:9ch">${esc(tname(i))}</b>${timerHTML("tm1_"+i,90)}</div>
+   <div class="jury" style="--c:${TC[i]}" data-i="${i}"><b>Қазылар (0–10):</b><input type="number" min="0" max="10" step="0.5" placeholder="1-қазы"><input type="number" min="0" max="10" step="0.5" placeholder="2-қазы"><input type="number" min="0" max="10" step="0.5" placeholder="3-қазы"><div class="avg">Орташа: <span>–</span></div><button class="btn sm">+ Ұпай қосу</button></div>`).join("")}</div>`+nextBtn(1);
+  m.querySelectorAll(".jury").forEach(j=>{const inp=j.querySelectorAll("input"),av=j.querySelector(".avg span");let val=null;
+    const calc=()=>{const v=[...inp].map(x=>parseFloat(x.value)).filter(x=>!isNaN(x));if(v.length<1){av.textContent="–";val=null;return}
+      val=Math.round(v.reduce((a,b)=>a+b,0)/v.length*2)/2;av.textContent=fmt(val)};
+    inp.forEach(x=>x.addEventListener("input",calc));
+    j.querySelector("button").onclick=ev=>{if(val==null){toast("Алдымен қазылардың ұпайын енгізіңіз");return}addScore(+j.dataset.i,val,"визитка");ev.target.disabled=true;ev.target.textContent="✔ Қосылды"};
+  });
+}
+function vS2(m){const s=STAGES[1];
+  const card=(q,i,res)=>{const k=(res?"r":"q")+i,team=res?-1:i%3;
+    return `<button class="qcard ${st.done[k]?"done":""}" style="--c:${res?"#cbd5e1":TC[team]}" data-q="${k}"><span class="gr">[${q[0]}]</span><span class="qn">${res?"Қ"+(i+1):i+1}</span><span class="qt">${res?"қор сұрақ":esc(tname(team))}</span></button>`};
+  m.innerHTML=banner(s)+`<div class="grid2">${rulesCard(s,S2.rules)}<div class="card" style="--c:${s.hex}"><h3>🎯 Кезек</h3><ul>${[0,1,2].map(i=>`<li style="color:${TC[i]}"><b>${esc(tname(i))}</b>: №${[1,4,7,10,13].map(x=>x+i).join(", ")}</li>`).join("")}</ul><p class="note">Карточканы басыңыз — сұрақ экранға шығады.</p></div></div>
+   ${hostCard(S2.host)}<div class="qgrid">${S2.q.map((q,i)=>card(q,i,false)).join("")}</div>
+   <h3 style="margin:1rem 0 .3rem;color:var(--mut)">Қор сұрақтар</h3><div class="qgrid" style="grid-template-columns:repeat(5,1fr)">${S2.res.map((q,i)=>card(q,i,true)).join("")}</div>`+nextBtn(2);
+  m.querySelectorAll(".qcard").forEach(b=>b.onclick=()=>openQ2(b.dataset.q));
+}
+function openQ2(k){
+  const res=k[0]==="r",i=+k.slice(1),q=(res?S2.res:S2.q)[i],team=res?-1:i%3,next=res?-1:(team+1)%3;
+  const c=res?"#cbd5e1":TC[team];
+  let awarded=false;
+  openModal(`<div class="mhead"><span class="chip" style="--c:${c}">${res?"Қор сұрақ "+(i+1):"Сұрақ "+(i+1)}</span>${res?"":`<span class="chip" style="--c:${c}">${esc(tname(team))}</span>`}<span class="chip g">[${q[0]}-сынып тақырыбы]</span>${timerHTML("tm2",15,"ойлану")}</div>
+   <div class="qtext">${esc(q[1])}</div><div class="answer hidden" id="ans">✔ ${esc(q[2])}</div>
+   <div class="actions"><button class="btn warn" id="rev">👁 Жауабы</button>
+   ${res?[0,1,2].map(t=>`<button class="btn sm" style="background:${TC[t]};color:#08122b" data-aw="${t}:1">+1 ${esc(tname(t))}</button>`).join(""):
+   `<button class="btn" id="ok" style="background:${TC[team]}">✔ Дұрыс · +1 ${esc(tname(team))}</button>
+    <button class="btn ghost" id="pass">→ ${esc(tname(next))} жауап береді (10 с)</button></div>
+    <div class="actions" id="passrow" style="display:none"><span class="timer" id="tm2b" data-secs="10"><span>10 секунд</span><span class="tm">00:10</span><button class="bt" data-t="go">▶</button><button class="bt" data-t="rs">↺</button></span>
+    <button class="btn" id="ok2" style="background:${TC[next]}">✔ Дұрыс · +1 ${esc(tname(next))}</button><button class="btn ghost" id="no2">✘ Ешкім білмеді</button>`}</div>`,c,()=>{st.done[k]=1;save();const el=document.querySelector(`[data-q="${k}"]`);if(el)el.classList.add("done")});
+  $("#rev").onclick=()=>$("#ans").classList.remove("hidden");
+  const aw=(t,msg)=>{if(awarded)return;awarded=true;addScore(t,1,msg);$("#ans").classList.remove("hidden");closeModal(true)};
+  if(res)document.querySelectorAll("[data-aw]").forEach(b=>b.onclick=()=>aw(+b.dataset.aw.split(":")[0],"қор"));
+  else{$("#ok").onclick=()=>aw(team,"дұрыс");
+   $("#pass").onclick=()=>{$("#passrow").style.display="flex";bindTimers($("#passrow"))};
+   $("#ok2").onclick=()=>aw(next,"бонус");$("#no2").onclick=()=>{$("#ans").classList.remove("hidden");toast("Дұрыс жауап оқылды")}}
+}
+function vS3(m){const s=STAGES[2];
+  m.innerHTML=banner(s)+`<div class="grid2">${rulesCard(s,S3.rules)}<div class="card" style="--c:${s.hex}"><h3>🎁 Ұпай шкаласы</h3><table class="tbl"><tr><td>1-меңзеуден кейін</td><td><b>3 ұпай</b></td></tr><tr><td>2-меңзеуден кейін</td><td><b>2 ұпай</b></td></tr><tr><td>3-меңзеуден кейін</td><td><b>1 ұпай</b></td></tr><tr><td>Басқа команда (3 меңзеуден соң)</td><td><b>+1</b></td></tr></table></div></div>
+   ${hostCard(S3.host)}<div class="boxgrid">${S3.b.map((b,i)=>`<button class="bbox ${st.done["b"+i]?"done":""}" style="--c:${TC[i%3]}" data-b="${i}"><div class="q">?</div><div class="o">Жәшік ${i+1}</div><div style="color:${TC[i%3]};font-weight:900">${esc(tname(i%3))}</div></button>`).join("")}</div>`+nextBtn(3);
+  m.querySelectorAll(".bbox").forEach(b=>b.onclick=()=>openB(+b.dataset.b));
+}
+function openB(i){
+  const b=S3.b[i],team=i%3,c=TC[team];let shown=0,done=false;
+  const clues=()=>[0,1,2].map(n=>`<div class="clue ${n<shown?"on":""}"><span class="pts">${3-n} ұпай</span>${n<shown?esc(b[2][n]):`<span class="ph">меңзеу ${n+1} жабық…</span>`}</div>`).join("");
+  const draw=()=>{$("#clues").innerHTML=clues();$("#nextclue").disabled=shown>=3;$("#nextclue").textContent=shown<3?`🔍 ${shown+1}-меңзеуді ашу`:"Меңзеулер аяқталды";
+    $("#ok").textContent=shown?`✔ Дұрыс · +${4-shown} ${tname(team)}`:"✔ Дұрыс (алдымен меңзеу ашыңыз)";$("#ok").disabled=!shown||done;$("#oth").classList.toggle("hidden",shown<3||done)};
+  openModal(`<div class="mhead"><span class="chip" style="--c:${c}">Жәшік ${i+1}</span><span class="chip" style="--c:${c}">${esc(tname(team))}</span>${timerHTML("tm3",10,"жауап")}</div>
+   <div class="mystery" id="myst">🎁</div><div class="clues" id="clues"></div>
+   <div class="answer hidden" id="ans">✔ ${b[1]} ${esc(b[0])}<div style="font-size:.6em;opacity:.9">Жәшіктегі зат: ${esc(b[3])}</div></div>
+   <div class="actions"><button class="btn warn" id="nextclue"></button><button class="btn" id="ok" style="background:${c}"></button>
+   <button class="btn ghost" id="rev">👁 Жауабын ашу</button></div>
+   <div class="actions hidden" id="oth"><span>Басқа команда дұрыс айтты (+1):</span>${[0,1,2].filter(t=>t!==team).map(t=>`<button class="btn sm" data-o="${t}" style="background:${TC[t]};color:#08122b">${esc(tname(t))}</button>`).join("")}</div>`,c,()=>{st.done["b"+i]=1;save();const el=document.querySelector(`[data-b="${i}"]`);if(el)el.classList.add("done")});
+  draw();
+  const reveal=()=>{$("#ans").classList.remove("hidden");$("#myst").textContent=b[1]};
+  $("#nextclue").onclick=()=>{if(shown<3){shown++;draw()}};
+  $("#ok").onclick=()=>{if(done)return;done=true;addScore(team,4-shown,"жәшік "+(i+1));reveal();draw();confettiBurst(60)};
+  $("#rev").onclick=reveal;
+  document.querySelectorAll("[data-o]").forEach(x=>x.onclick=()=>{if(done)return;done=true;addScore(+x.dataset.o,1,"жәшік "+(i+1));reveal();draw()});
+}
+function vS4(m){const s=STAGES[3];
+  m.innerHTML=banner(s)+`<div class="grid2">${rulesCard(s,S4.rules)}<div class="card" style="--c:${s.hex}"><h3>⏱ Шешу уақыты</h3><div class="center">${timerHTML("tm4",600,"10 минут")}</div>
+   <p class="note" style="margin-top:.8rem">Тексеру үшін қосымша 2 минут: <span class="timer" id="tm4c" data-secs="120" style="padding:.1rem .5rem"><span class="tm" style="font-size:1.2em">02:00</span><button class="bt" data-t="go">▶</button><button class="bt" data-t="rs">↺</button></span></p>
+   <h3 style="margin-top:1rem">⚡ Жылдамдық бонусы (+1)</h3><div class="actions">${[0,1,2].map(i=>`<button class="btn sm" style="background:${TC[i]};color:#08122b" data-bn="${i}">+1 ${esc(tname(i))}</button>`).join("")}</div>
+   <p class="note">Есептер бойынша 1 / 0,5 ұпайды төмендегі тақтадан қосыңыз (+1, +½).</p></div></div>
+   ${hostCard(S4.host)}<h2 style="margin:1rem 0">📝 Есептер</h2>
+   <div class="tasks">${S4.t.map((t,i)=>`<div class="task"><div class="no">${i+1}</div><div class="tp">${t[0]}</div><div style="font-size:1.1em">${t[1]}</div><div><button class="btn sm warn" data-sol="${i}">👁 Шешуін көрсету</button><div class="sol hidden" id="sol${i}">${t[2]}<br><b>Жауабы: ${t[3]}</b></div></div></div>`).join("")}</div>
+   <h2 style="margin:1.6rem 0 .6rem">🎮 Көрермендермен ойын «Дұрыс / Бұрыс» <span class="note">(жасыл / қызыл карточка)</span></h2>
+   <div class="tf">${S4.tf.map((x,i)=>`<div class="tfi" id="tf${i}"><span class="note">${i+1}</span><div class="st">${esc(x[0])}<div class="note hidden" id="tfn${i}">${esc(x[2])}</div></div><span class="res ${x[1]?"y":"n"}">${x[1]?"ДҰРЫС":"БҰРЫС"}</span><button class="btn sm ghost" data-tf="${i}">Жауабы</button></div>`).join("")}</div>`+nextBtn(4);
+  m.querySelectorAll("[data-sol]").forEach(b=>b.onclick=()=>{$("#sol"+b.dataset.sol).classList.toggle("hidden")});
+  m.querySelectorAll("[data-tf]").forEach(b=>b.onclick=()=>{const i=b.dataset.tf;$("#tf"+i).classList.add("show");$("#tfn"+i).classList.remove("hidden")});
+  m.querySelectorAll("[data-bn]").forEach(b=>b.onclick=()=>{addScore(+b.dataset.bn,1,"жылдамдық бонусы");b.disabled=true});
+}
+function r5(n){return st.s5[n]=st.s5[n]||{stakes:[0,0,0],open:false,q:false,ans:false,res:[null,null,null]}}
+function vS5(m){const s=STAGES[4];
+  m.innerHTML=banner(s)+`<div class="grid2">${rulesCard(s,S5.rules)}<div class="card" style="--c:${s.hex}"><h3>🎲 Қысқаша</h3><ul><li>Ставка: <b>1 · 2 · 3</b> ұпай</li><li>Дұрыс → <b>+ставка</b></li><li>Қате → <b>−ставка</b> (0-ден төмен емес)</li><li>Жауап: <b>30 секунд</b></li></ul></div></div>
+   ${hostCard(S5.host)}<div id="s5live">${[1,2,3,4].map(n=>roundHTML(n)).join("")}</div>
+   <h2 style="margin:1.4rem 0 .5rem">⚖️ Тай-брейк (тең ұпай болғанда)</h2><div class="tasks">${S5.tie.map((t,i)=>`<div class="task" style="border-left-color:var(--r)"><div class="no" style="color:var(--r)">Т${i+1}</div><div style="font-size:1.1em">${esc(t[0])}</div><div><button class="btn sm warn" data-tie="${i}">👁 Жауабы</button><div class="sol hidden" id="tie${i}" style="background:#9f1239aa"><b>${esc(t[1])}</b></div></div></div>`).join("")}</div>`+nextBtn(5);
+  bindS5(m);
+}
+function maxStake(t){return Math.max(1,Math.min(3,Math.floor(st.scores[t])))}
+function roundHTML(n){const r=r5(n),q=S5.q[n-1],c=STAGES[4].hex,allSet=r.stakes.every(x=>x>0);
+  return `<div class="card" style="--c:${c};margin:1rem 0" data-r="${n}"><h3>Раунд ${n} · [${q[0]}-сынып тақырыбы]</h3>
+   ${[0,1,2].map(t=>`<div class="stakerow" style="--c:${TC[t]}"><div class="nm">${esc(tname(t))}<span class="sc">ұпайы: ${fmt(st.scores[t])} · макс. ставка ${maxStake(t)}</span></div>
+     <div>${r.open?`<div class="lock">${r.stakes[t]>0?"🔓 "+r.stakes[t]:"—"}</div>`:`<div class="stk" data-t="${t}">${[1,2,3].map(v=>`<button data-v="${v}" ${v>maxStake(t)?"disabled":""}>${v}</button>`).join("")}<span class="note" style="align-self:center">${r.stakes[t]>0?"🔒 ставка жасалды":"құпия ставка"}</span></div>`}</div>
+     <div class="res5">${r.open&&r.q?(r.res[t]==null?`<button class="btn sm" data-ok="${t}" style="background:#22c55e">✔ +${r.stakes[t]}</button><button class="btn sm bad" data-no="${t}">✘ −${r.stakes[t]}</button>`:`<span class="rtag ${r.res[t]>=0?"ok":"no"}">${r.res[t]>=0?"+":"−"}${Math.abs(r.res[t])}</span>`):""}</div></div>`).join("")}
+   <div class="actions"><button class="btn warn" data-open="${n}" ${r.open||!allSet?"disabled":""}>🔓 Ставкаларды ашу</button>
+   <button class="btn" data-showq="${n}" ${!r.open||r.q?"disabled":""}>❓ Сұрақты көрсету</button></div>
+   ${r.q?`<div class="qtext" style="margin-top:1rem">${esc(q[1])}</div><div class="actions">${timerHTML("tm5_"+n,30,"30 секунд")}<button class="btn warn" data-ans="${n}">👁 Жауабы</button></div><div class="answer ${r.ans?"":"hidden"}" id="a5_${n}">✔ ${esc(q[2])}</div>`:""}</div>`}
+function bindS5(m){
+  bindTimers(m);
+  m.querySelectorAll("[data-r]").forEach(card=>{const n=+card.dataset.r,r=r5(n);
+    card.querySelectorAll(".stk").forEach(g=>g.querySelectorAll("button").forEach(b=>b.onclick=()=>{r.stakes[+g.dataset.t]=+b.dataset.v;save();rerender5()}));
+    const q=s=>card.querySelector(s);
+    const op=q("[data-open]");if(op)op.onclick=()=>{r.open=true;save();rerender5();toast("Ставкалар ашылды!")};
+    const sq=q("[data-showq]");if(sq)sq.onclick=()=>{r.q=true;save();rerender5()};
+    const an=q("[data-ans]");if(an)an.onclick=()=>{r.ans=true;save();$("#a5_"+n).classList.remove("hidden")};
+    card.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>{const t=+b.dataset.ok;r.res[t]=addScore(t,r.stakes[t],"тәуекел ✔");save();rerender5()});
+    card.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>{const t=+b.dataset.no;r.res[t]=addScore(t,-r.stakes[t],"тәуекел ✘");save();rerender5()});
+  });
+  m.querySelectorAll("[data-tie]").forEach(b=>b.onclick=()=>$("#tie"+b.dataset.tie).classList.toggle("hidden"));
+}
+function rerender5(){const sc=window.scrollY;stopAllTimers();const live=$("#s5live");live.innerHTML=[1,2,3,4].map(n=>roundHTML(n)).join("");bindS5(live.parentElement);
+  window.scrollTo({top:sc});
+  // restore accessible keep: question-timers were re-created
+}
+function updateStakeLimits(){ /* stake limits shown on next rerender */ }
+function vFinal(m){
+  const order=[0,1,2].sort((a,b)=>st.scores[b]-st.scores[a]);
+  const tie=st.scores[order[0]]===st.scores[order[1]];
+  const medal=["🥇","🥈","🥉"];
+  const pod=[order[1],order[0],order[2]], cls=["p2","p1","p3"], rk=[1,0,2];
+  m.innerHTML=`<div class="hero" style="padding-bottom:0"><div class="tag">Сайыстың қорытындысы</div><h1>${tie?"ТЕҢ ҰПАЙ!":"ЖЕҢІМПАЗ"}</h1>
+   <p class="sub">${tie?`«${esc(tname(order[0]))}» және «${esc(tname(order[1]))}» — ${fmt(st.scores[order[0]])} ұпайдан. Тай-брейк сұрақтарын 5-кезеңнен алыңыз.`:`«Биология білгірлері» атағын жеңіп алған команда — <b style="color:${TC[order[0]]}">${esc(tname(order[0]))}</b>!`}</p></div>
+   <div class="podium">${pod.map((t,k)=>`<div class="pod ${cls[k]}" style="--c:${TC[t]}"><div class="md">${medal[rk[k]]}</div><div class="nm">${esc(tname(t))}</div><div class="sc">${fmt(st.scores[t])}</div><div>ұпай</div></div>`).join("")}</div>
+   <div class="center"><button class="btn big warn" id="conf">🎉 Салют!</button> ${tie?`<button class="btn ghost" data-go="s5">⚖️ Тай-брейк</button>`:""}</div>
+   <h2 style="margin:1.6rem 0 .6rem">🏅 Номинациялар</h2><div class="nom">${NOMS.map((n,i)=>`<div class="nomi"><b>${esc(n)}:</b><input data-nom="${i}" value="${esc(st.noms[i]||"")}" placeholder="команда / оқушы"></div>`).join("")}</div>
+   <div class="proverb">«Білекті бірді жығады, білімді мыңды жығады»</div>
+   <div class="card" style="--c:var(--g)"><h3>🎤 Қорытынды сөз</h3><p>Бүгін біз тірі табиғаттың сырын тереңірек ұғындық, бір-бірімізді тыңдауды, бірге шешім қабылдауды үйрендік. Биология — тек сабақ емес, біз өмір сүретін әлем туралы ғылым. Өз білімдеріңізді дамыта беріңіздер! Назар аударғандарыңызға рақмет, келесі кездескенше!</p></div>
+   <div class="actions" style="justify-content:space-between;margin-top:1.4rem"><button class="btn ghost" data-go="s5">← 5-кезең</button><button class="btn ghost" data-go="intro">🏠 Басты</button></div>`;
+  m.querySelectorAll("[data-nom]").forEach(i=>i.addEventListener("input",()=>{st.noms[i.dataset.nom]=i.value;save()}));
+  $("#conf").onclick=()=>confettiBurst(260);
+  if(!tie&&st.scores[order[0]]>0)setTimeout(()=>confettiBurst(260),350);
+}
+
+/* ============ MODAL ============ */
+let onClose=null;
+function openModal(html,color,cb){const m=$("#modal");$("#mbody").innerHTML=`<button class="mclose" id="mx" aria-label="Жабу">✕</button>`+html;$("#mbody").style.setProperty("--c",color||"#fff");
+  m.classList.add("on");onClose=cb;$("#mx").onclick=()=>closeModal(true);bindTimers($("#mbody"))}
+function closeModal(mark){const m=$("#modal");if(!m.classList.contains("on"))return;m.classList.remove("on");
+  ["tm2","tm2b","tm3"].forEach(id=>{if(timers.has(id)){timers.get(id).stop();timers.delete(id)}});
+  if(mark&&onClose)onClose();onClose=null;}
+$("#modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal(true)});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeModal(true);
+  if(["INPUT","TEXTAREA"].includes(document.activeElement.tagName)||$("#modal").classList.contains("on"))return;
+  const order=["intro","s1","s2","s3","s4","s5","final"],i=order.indexOf(st.view);
+  if(e.key==="ArrowRight"&&i<order.length-1)go(order[i+1]);
+  if(e.key==="ArrowLeft"&&i>0)go(order[i-1]);
+});
+
+/* ============ CONFETTI ============ */
+const cv=$("#confetti"),cx=cv.getContext("2d");let parts=[],raf=null;
+function sizeCv(){cv.width=innerWidth;cv.height=innerHeight}addEventListener("resize",sizeCv);sizeCv();
+function confettiBurst(n){
+  const cols=["#34d399","#38bdf8","#fbbf24","#a78bfa","#fb7185","#ffffff"];
+  for(let i=0;i<n;i++)parts.push({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.3,vx:(Math.random()-.5)*5,vy:2+Math.random()*5,r:5+Math.random()*8,c:cols[i%cols.length],a:Math.random()*6,va:(Math.random()-.5)*.3,life:0});
+  if(!raf)raf=requestAnimationFrame(tick);
+}
+function tick(){cx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.06;p.a+=p.va;p.life++;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;cx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);cx.restore()});
+  parts=parts.filter(p=>p.y<cv.height+30&&p.life<600);
+  raf=parts.length?requestAnimationFrame(tick):null;if(!raf)cx.clearRect(0,0,cv.width,cv.height)}
+
+/* ============ INIT ============ */
+if(/[?&]shot/.test(location.search)){const z=document.createElement('style');z.textContent='*{animation:none!important;transition:none!important}';document.head.appendChild(z)}
+renderSB();
+const h=(location.hash||"").slice(1).split("/");
+go(["intro","s1","s2","s3","s4","s5","final"].includes(h[0])?h[0]:(st.view||"intro"));
+// demo hooks for screenshots: #s2/q:3  #s3/b:1:2
+if(h[1]&&h[1].startsWith("q:"))setTimeout(()=>{openQ2("q"+h[1].slice(2));$("#rev").click()},50);
+if(h[1]&&h[1].startsWith("b:")){const p=h[1].split(":");setTimeout(()=>{openB(+p[1]);for(let k=0;k<+(p[2]||0);k++)$("#nextclue").click()},50)}
+if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
